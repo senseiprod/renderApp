@@ -1378,6 +1378,8 @@
     </div>
 
     <script>
+
+        const API_BASE_URL = 'https://tote-bag-customizer.onrender.com';
         // DOM Elements
         const form = document.getElementById('mockup-form');
         const submitBtn = document.getElementById('submit-btn');
@@ -1506,7 +1508,7 @@
                     formData.append('logoWidth', logoWidthSlider.value);
                     formData.append('color', document.getElementById('color').value);
 
-                    const response = await fetch(`/preview?t=${Date.now()}`, {
+                    const response = await fetch(`${API_BASE_URL}/preview?t=${Date.now()}`, {
                         method: 'POST',
                         body: formData,
                     });
@@ -1819,7 +1821,7 @@
                 formData.append('logoWidth', logoWidthSlider.value);
 
                 // Step 2: Call the NEW backend endpoint to process and upload files
-                const response = await fetch('/finalize-for-shopify', {
+                const response = await fetch(`${API_BASE_URL}/finalize-for-shopify`, {
                     method: 'POST',
                     body: formData,
                 });
@@ -1837,7 +1839,7 @@
                 // but we can log the data to confirm it's ready.
                 console.log("SUCCESS! Ready to add to Shopify cart with this data:");
                 console.log({
-                    id: 1234567890123, // This will be your real variant ID
+                    id: 46914449277028, // This will be your real variant ID
                     quantity: 1,
                     properties: {
                         'Custom Mockup': `<a href="${designData.mockupUrl}" target="_blank">View Mockup</a>`,
