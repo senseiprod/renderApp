@@ -1868,25 +1868,15 @@ form.addEventListener('submit', async (event) => {
 
         // 9. Send the payload to Shopify's official AJAX Cart API endpoint (`/cart/add.js`).
         //    This endpoint is available on every Shopify store.
-        const shopifyResponse = await fetch('/cart/add.js', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(shopifyPayload)
-        });
+       // 9. Send the prepared Shopify payload up to the parent window (the Shopify page).
+//    The first argument is the data payload.
+//    The second argument is the target origin, specifying which parent window can receive the message.
+//    Using '*' is okay for development, but for production, you would use your Shopify store's URL.
+console.log('Sending payload to parent Shopify page:', shopifyPayload);
+window.parent.postMessage(shopifyPayload, '*');
 
-        // 10. Handle any errors from Shopify's API.
-        if (!shopifyResponse.ok) {
-            const shopifyError = await shopifyResponse.json();
-            // Shopify's error response often has a useful `description`.
-            throw new Error(shopifyError.description || 'Impossible d\'ajouter l\'article au panier Shopify.');
-        }
-
-        // 11. If the item is successfully added to the cart, redirect the user.
-        //     We use `window.top.location.href` instead of `window.location.href`.
-        //     This is essential because your app is inside an iframe. This command
-        //     tells the main browser window (your Shopify page) to redirect, not just
-        //     the iframe content itself.
-        window.top.location.href = '/cart';
+// The parent window will now handle adding to cart and redirection.
+// The iframe's job is done.
 
     } catch (error) {
         // 12. If any error occurred in the `try` block, it will be caught here.
