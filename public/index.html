@@ -1849,22 +1849,23 @@ form.addEventListener('submit', async (event) => {
         // 8. Prepare the final payload to be sent to Shopify's Cart API.
         //    This object includes the product's variant ID and the custom line item properties.
         const shopifyPayload = {
-            // CRITICAL: Replace this with the actual Variant ID from your Shopify product admin URL.
-            id: 46914449277028, 
-            quantity: 1,
-            properties: {
-                // These properties will appear in the Shopify order for you to see.
-                // The HTML `<a>` tags will create clickable links in the order admin.
-                'Custom Mockup': `<a href="${designData.mockupUrl}" target="_blank">Voir la maquette</a>`,
-                'Original Logo': `<a href="${designData.originalLogoUrl}" target="_blank">Télécharger le logo</a>`,
-                'Couleur du Sac': designData.config.color,
-                'Position X du Logo': designData.config.logoX,
-                'Position Y du Logo': designData.config.logoY,
-                'Largeur du Logo': designData.config.logoWidth,
-                // This is a hidden property used by some themes to show a custom image in the cart.
-                '_preview_image': designData.mockupUrl
-            }
-        };
+    id: 46914449277028, 
+    quantity: 1,
+    properties: {
+        // Your normal, visible properties
+        'Couleur du Sac': designData.config.color,
+        'Position X du Logo': designData.config.logoX,
+        'Position Y du Logo': designData.config.logoY,
+        'Largeur du Logo': designData.config.logoWidth,
+
+        // Hidden properties with the raw data for our links
+        '_Custom Mockup URL': designData.mockupUrl,
+        '_Original Logo URL': designData.originalLogoUrl,
+        
+        // This property is used by some themes to show a custom image in the cart.
+        '_preview_image': designData.mockupUrl
+    }
+};
 
         // 9. Send the payload to Shopify's official AJAX Cart API endpoint (`/cart/add.js`).
         //    This endpoint is available on every Shopify store.
