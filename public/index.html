@@ -1801,79 +1801,104 @@
             }
         });
 
-        // Form submission
-        form.addEventListener('submit', async (event) => {
-            event.preventDefault(); // Prevent default form submission
-            if (!currentLogoFile) {
-                showError('Veuillez d\'abord sélectionner un logo.');
-                return;
-            }
-            
-            setLoadingState(true, 'Finalisation de votre design...'); // Update loading text
-            
-            try {
-                // Step 1: Create FormData with all the design parameters
-                const formData = new FormData();
-                formData.append('logoFile', currentLogoFile);
-                formData.append('color', document.getElementById('color').value);
-                formData.append('logoX', logoXSlider.value);
-                formData.append('logoY', logoYSlider.value);
-                formData.append('logoWidth', logoWidthSlider.value);
+        //================================================================================
+// FINAL FORM SUBMISSION HANDLER FOR SHOPIFY INTEGRATION
+//================================================================================
 
-                // Step 2: Call the NEW backend endpoint to process and upload files
-                const response = await fetch(`${API_BASE_URL}/finalize-for-shopify`, {
-                    method: 'POST',
-                    body: formData,
-                });
+form.addEventListener('submit', async (event) => {
+    // 1. Prevent the browser's default form submission behavior.
+    event.preventDefault();
 
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.details || 'Could not process your design.');
-                }
-                
-                const designData = await response.json();
-                // At this point, designData is: { mockupUrl, originalLogoUrl, config }
+    // 2. Validate that a logo file has been selected before proceeding.
+    if (!currentLogoFile) {
+        showError('Veuillez sélectionner un logo avant de continuer.');
+        return;
+    }
 
-                // --- THIS IS THE PART FOR LOCAL TESTING ---
-                // We can't actually add to a Shopify cart from a local file,
-                // but we can log the data to confirm it's ready.
-                console.log("SUCCESS! Ready to add to Shopify cart with this data:");
-                console.log({
-                    id: 46914449277028, // This will be your real variant ID
-                    quantity: 1,
-                    properties: {
-                        'Custom Mockup': `<a href="${designData.mockupUrl}" target="_blank">View Mockup</a>`,
-                        'Original Logo': `<a href="${designData.originalLogoUrl}" target="_blank">Download Logo</a>`,
-                        'Tote Color': designData.config.color,
-                        'Logo X Position': designData.config.logoX,
-                        'Logo Y Position': designData.config.logoY,
-                        'Logo Width': designData.config.logoWidth,
-                        '_preview_image': designData.mockupUrl 
-                    }
-                });
-                
-                // Show a success message for local testing
-                showSuccessForLocalTest(designData.mockupUrl);
-                
-                // In a real Shopify environment, the next lines would be:
-                /*
-                const shopifyResponse = await fetch('/cart/add.js', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(shopifyPayload) // where shopifyPayload is the object above
-                });
-                if (!shopifyResponse.ok) throw new Error('Could not add to cart.');
-                window.location.href = '/cart';
-                */
+    // 3. Update the UI to show a loading state and disable the button.
+    setLoadingState(true, 'Finalisation de votre design...');
 
+    try {
+        // 4. Collect all the customization data into a FormData object.
+        //    This is an efficient way to send files and data together.
+        const formData = new FormData();
+        formData.append('logoFile', currentLogoFile);
+        formData.append('color', document.getElementById('color').value);
+        formData.append('logoX', logoXSlider.value);
+        formData.append('logoY', logoYSlider.value);
+        formData.append('logoWidth', logoWidthSlider.value);
 
-            } catch (error) {
-                console.error('Error during finalization:', error);
-                showError(error.message);
-            } finally {
-                setLoadingState(false);
-            }
+        // 5. Send the data to your deployed backend on Render.
+        //    This endpoint will generate the final mockup and upload files to Cloudinary.
+        const response = await fetch(`${API_BASE_URL}/finalize-for-shopify`, {
+            method: 'POST',
+            body: formData,
         });
+
+        // 6. Handle any errors from your backend. If the response is not "OK" (e.g., status 500),
+        //    read the error message from the JSON response and throw an error.
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.details || 'Une erreur est survenue lors de la création de votre maquette.');
+        }
+
+        // 7. If successful, parse the JSON response from your backend.
+        //    This object contains the Cloudinary URLs and the configuration details.
+        const designData = await response.json();
+
+        // 8. Prepare the final payload to be sent to Shopify's Cart API.
+        //    This object includes the product's variant ID and the custom line item properties.
+        const shopifyPayload = {
+            // CRITICAL: Replace this with the actual Variant ID from your Shopify product admin URL.
+            id: 46914449277028, 
+            quantity: 1,
+            properties: {
+                // These properties will appear in the Shopify order for you to see.
+                // The HTML `<a>` tags will create clickable links in the order admin.
+                'Custom Mockup': `<a href="${designData.mockupUrl}" target="_blank">Voir la maquette</a>`,
+                'Original Logo': `<a href="${designData.originalLogoUrl}" target="_blank">Télécharger le logo</a>`,
+                'Couleur du Sac': designData.config.color,
+                'Position X du Logo': designData.config.logoX,
+                'Position Y du Logo': designData.config.logoY,
+                'Largeur du Logo': designData.config.logoWidth,
+                // This is a hidden property used by some themes to show a custom image in the cart.
+                '_preview_image': designData.mockupUrl
+            }
+        };
+
+        // 9. Send the payload to Shopify's official AJAX Cart API endpoint (`/cart/add.js`).
+        //    This endpoint is available on every Shopify store.
+        const shopifyResponse = await fetch('/cart/add.js', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(shopifyPayload)
+        });
+
+        // 10. Handle any errors from Shopify's API.
+        if (!shopifyResponse.ok) {
+            const shopifyError = await shopifyResponse.json();
+            // Shopify's error response often has a useful `description`.
+            throw new Error(shopifyError.description || 'Impossible d\'ajouter l\'article au panier Shopify.');
+        }
+
+        // 11. If the item is successfully added to the cart, redirect the user.
+        //     We use `window.top.location.href` instead of `window.location.href`.
+        //     This is essential because your app is inside an iframe. This command
+        //     tells the main browser window (your Shopify page) to redirect, not just
+        //     the iframe content itself.
+        window.top.location.href = '/cart';
+
+    } catch (error) {
+        // 12. If any error occurred in the `try` block, it will be caught here.
+        //     Display a user-friendly error message on the screen.
+        console.error('Erreur finale de soumission:', error);
+        showError(error.message);
+    } finally {
+        // 13. This block will run regardless of success or failure.
+        //     It resets the UI from the loading state, ensuring the user is not stuck.
+        setLoadingState(false);
+    }
+});
         
         // UI state management functions
         function setLoadingState(isLoading) {
