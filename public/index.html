@@ -1,0 +1,2000 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur de Maquettes Professionnel - Designer de Sacs Tote</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+            --dark-bg: #0f0f23;
+            --card-bg: rgba(255, 255, 255, 0.08);
+            --glass-bg: rgba(255, 255, 255, 0.12);
+            --text-primary: #ffffff;
+            --text-secondary: #b8b8d1;
+            --accent-color: #6366f1;
+            --accent-glow: #8b5cf6;
+            --success-color: #10b981;
+            --error-color: #ef4444;
+            --border-radius: 16px;
+            --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(ellipse at center, #1a1a2e 0%, #16213e 50%, #0f0f23 100%);
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 60%, rgba(16, 185, 129, 0.05) 0%, transparent 50%);
+            animation: backgroundShift 20s ease-in-out infinite;
+        }
+
+        @keyframes backgroundShift {
+            0%, 100% { transform: translateX(0) translateY(0) rotate(0deg); }
+            25% { transform: translateX(-10px) translateY(-5px) rotate(0.5deg); }
+            50% { transform: translateX(10px) translateY(5px) rotate(-0.5deg); }
+            75% { transform: translateX(-5px) translateY(10px) rotate(0.25deg); }
+        }
+
+        /* Main Container */
+        .app-container {
+            display: grid;
+            grid-template-columns: 380px 1fr 380px;
+            min-height: 100vh;
+            position: relative;
+            z-index: 1;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        /* Left Panel - Controls */
+        .controls-panel {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            position: relative;
+            overflow-y: auto;
+            height: 100vh;
+        }
+
+        .controls-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--primary-gradient);
+            animation: gradientShift 3s ease-in-out infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .main-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* Form Styles */
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 0.85rem;
+        }
+
+        /* File Upload Zone */
+        .file-upload-zone {
+            background: var(--glass-bg);
+            border: 2px dashed rgba(99, 102, 241, 0.3);
+            border-radius: var(--border-radius);
+            padding: 2.5rem 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .file-upload-zone::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--primary-gradient);
+            opacity: 0;
+            transition: var(--transition);
+            z-index: -1;
+        }
+
+        .file-upload-zone:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .file-upload-zone:hover::before {
+            opacity: 0.05;
+        }
+
+        .file-upload-zone.dragover {
+            border-color: var(--accent-glow);
+            background: rgba(139, 92, 246, 0.1);
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+        }
+
+        .upload-text {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 0.75rem;
+            line-height: 1.4;
+        }
+
+        #logoFile {
+            display: none;
+        }
+
+        /* Custom Color Picker Container */
+        .color-picker-container {
+            position: relative;
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            border: 2px solid rgba(99, 102, 241, 0.2);
+            transition: var(--transition);
+            overflow: hidden;
+        }
+
+        .color-picker-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--primary-gradient);
+            opacity: 0;
+            transition: var(--transition);
+            z-index: -1;
+        }
+
+        .color-picker-container:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-glow);
+            border-color: var(--accent-color);
+        }
+
+        .color-picker-container:hover::before {
+            opacity: 0.1;
+        }
+
+        /* Custom Color Picker Button */
+        .custom-color-picker {
+            width: 100%;
+            height: 80px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 4px 12px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .custom-color-picker::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, 
+                #ff0000, #ff8000, #ffff00, #80ff00, 
+                #00ff00, #00ff80, #00ffff, #0080ff, 
+                #0000ff, #8000ff, #ff00ff, #ff0080, #ff0000);
+            opacity: 0;
+            transition: var(--transition);
+            border-radius: 12px;
+            z-index: -1;
+        }
+
+        .custom-color-picker:hover {
+            transform: scale(1.05);
+            box-shadow: 
+                inset 0 4px 12px rgba(0, 0, 0, 0.3),
+                0 0 30px rgba(99, 102, 241, 0.4);
+        }
+
+        .custom-color-picker:hover::before {
+            opacity: 0.3;
+            animation: colorSpectrum 2s linear infinite;
+        }
+
+        @keyframes colorSpectrum {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        /* Hidden Native Color Picker */
+        .native-color-picker {
+            display: none;
+        }
+
+        /* Custom Color Picker Modal */
+        .color-picker-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: modalFadeIn 0.3s ease-out;
+        }
+
+        .color-picker-modal.active {
+            display: flex;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .color-picker-panel {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            border: 2px solid rgba(99, 102, 241, 0.3);
+            box-shadow: var(--shadow-strong);
+            max-width: 320px;
+            width: 90%;
+            position: relative;
+            animation: panelSlideIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        @keyframes panelSlideIn {
+            from { 
+                transform: translateY(-50px) scale(0.9);
+            opacity: 0;
+            }
+            to { 
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        .color-picker-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .color-picker-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .close-color-picker {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .close-color-picker:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            transform: scale(1.1);
+        }
+
+        /* Color Spectrum */
+        .color-spectrum {
+            width: 100%;
+            height: 150px;
+            border-radius: 12px;
+            cursor: crosshair;
+            position: relative;
+            background: linear-gradient(to right, 
+                #ff0000, #ff8000, #ffff00, #80ff00, 
+                #00ff00, #00ff80, #00ffff, #0080ff, 
+                #0000ff, #8000ff, #ff00ff, #ff0080, #ff0000);
+            margin-bottom: 1rem;
+            box-shadow: inset 0 4px 12px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .color-spectrum::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.5));
+            border-radius: 12px;
+        }
+
+        .color-cursor {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 3px solid white;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* Color Sliders */
+        .color-sliders {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .color-slider-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .color-slider-label {
+            min-width: 30px;
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.8rem;
+        }
+
+        .color-slider {
+            flex: 1;
+            height: 8px;
+            border-radius: 4px;
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+            cursor: pointer;
+        }
+
+        .color-slider.red {
+            background: linear-gradient(to right, #000, #ff0000);
+        }
+
+        .color-slider.green {
+            background: linear-gradient(to right, #000, #00ff00);
+        }
+
+        .color-slider.blue {
+            background: linear-gradient(to right, #000, #0000ff);
+        }
+
+        .color-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            transition: var(--transition);
+        }
+
+        .color-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        .color-slider::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .color-value {
+            min-width: 45px;
+            text-align: center;
+            font-weight: 600;
+            color: var(--text-primary);
+            background: var(--glass-bg);
+            padding: 0.4rem 0.5rem;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+        }
+
+        /* Preset Colors */
+        .color-presets {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 0.4rem;
+            margin-bottom: 1rem;
+        }
+
+        .color-preset {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .color-preset:hover {
+            transform: scale(1.1);
+            border-color: white;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+        }
+
+        .color-preset::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.3) 50%, transparent 70%);
+                opacity: 0;
+            transition: var(--transition);
+            }
+
+        .color-preset:hover::before {
+                opacity: 1;
+            animation: shimmer 0.6s ease-out;
+            }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Action Buttons */
+        .color-picker-actions {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: flex-end;
+        }
+
+        .color-picker-btn {
+            padding: 0.6rem 1.25rem;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 0.8rem;
+        }
+
+        .color-picker-cancel {
+            background: var(--glass-bg);
+            color: var(--text-secondary);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .color-picker-cancel:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+        }
+
+        .color-picker-apply {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .color-picker-apply:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        /* Hex Input Styling */
+        .hex-input-group {
+            margin-bottom: 1rem;
+        }
+
+        .hex-input-label {
+            display: block;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .hex-input-container {
+            display: flex;
+            align-items: center;
+            background: var(--glass-bg);
+            border: 2px solid rgba(99, 102, 241, 0.2);
+            border-radius: 8px;
+            padding: 0.4rem;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hex-input-container:focus-within {
+            border-color: var(--accent-color);
+            box-shadow: var(--shadow-glow);
+            transform: translateY(-2px);
+        }
+
+        .hex-prefix {
+            color: var(--text-primary);
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            margin-right: 0.5rem;
+            user-select: none;
+        }
+
+        .hex-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--text-primary);
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 0.4rem;
+            transition: var(--transition);
+        }
+
+        .hex-input::placeholder {
+            color: var(--text-secondary);
+            opacity: 0.7;
+        }
+
+        .hex-input:focus {
+            color: var(--accent-color);
+        }
+
+        .hex-apply-btn {
+            background: var(--primary-gradient);
+            border: none;
+            border-radius: 6px;
+            color: white;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-left: 0.4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hex-apply-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s;
+        }
+
+        .hex-apply-btn:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .hex-apply-btn:hover::before {
+            left: 100%;
+        }
+
+        .hex-apply-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Hex Input Validation */
+        .hex-input.valid {
+            color: var(--success-color);
+        }
+
+        .hex-input.invalid {
+            color: var(--error-color);
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        /* Control Groups */
+        .control-group {
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .control-group::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--secondary-gradient);
+            background-size: 200% 200%;
+            animation: gradientShift 4s ease-in-out infinite;
+        }
+
+        .control-group:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .control-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--accent-color);
+            margin-bottom: 1.25rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Sliders */
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            transition: var(--transition);
+        }
+
+        .slider-container:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .slider-label {
+            min-width: 100px;
+            font-weight: 500;
+            color: var(--text-primary);
+            font-size: 0.85rem;
+        }
+
+        .slider {
+            flex: 1;
+            height: 8px;
+            border-radius: 4px;
+            background: linear-gradient(90deg, var(--accent-color), var(--accent-glow));
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .slider:hover {
+            height: 10px;
+            box-shadow: 0 0 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
+            transition: var(--transition);
+            border: 2px solid white;
+        }
+
+        .slider::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.6);
+        }
+
+        .slider-value {
+            min-width: 50px;
+            text-align: center;
+            font-weight: 600;
+            color: white;
+            background: var(--primary-gradient);
+            padding: 0.4rem 0.8rem;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(99, 102, 241, 0.3);
+            transition: var(--transition);
+            font-size: 0.85rem;
+        }
+
+        .slider-value:hover {
+            transform: scale(1.05);
+        }
+
+        /* Submit Button */
+        .submit-btn {
+            width: 100%;
+            padding: 1.25rem 2rem;
+            background: var(--primary-gradient);
+            background-size: 200% 200%;
+            animation: gradientShift 3s ease-in-out infinite;
+            border: none;
+            border-radius: var(--border-radius);
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), var(--shadow-glow);
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        .submit-btn:active {
+            transform: translateY(-1px) scale(0.98);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Center Panel - Result */
+        .result-panel {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            position: relative;
+            height: 100vh;
+        }
+
+        .result-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--secondary-gradient);
+            background-size: 200% 200%;
+            animation: gradientShift 4s ease-in-out infinite;
+        }
+
+        .result-container {
+            text-align: center;
+            width: 100%;
+        }
+
+        .result-image {
+            max-width: 100%;
+            max-height: 70vh;
+            object-fit: contain;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-soft);
+            transition: var(--transition);
+            opacity: 0;
+            transform: scale(0.9);
+        }
+
+        .result-image.visible {
+            opacity: 1;
+            transform: scale(1);
+            animation: imageAppear 0.8s ease-out;
+        }
+
+        @keyframes imageAppear {
+            0% {
+                opacity: 0;
+                transform: scale(0.9) rotateY(10deg);
+                filter: blur(5px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotateY(0deg);
+                filter: blur(0px);
+            }
+        }
+
+        .status-text {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .actions-container {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 0.875rem 1.75rem;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 0.9rem;
+        }
+
+        .download-btn {
+            background: linear-gradient(135deg, var(--success-color), #059669);
+            color: white;
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 12px 30px rgba(16, 185, 129, 0.4);
+        }
+
+        .new-mockup-btn {
+            background: linear-gradient(135deg, var(--accent-color), var(--accent-glow));
+            color: white;
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3);
+        }
+
+        .new-mockup-btn:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 12px 30px rgba(99, 102, 241, 0.4);
+        }
+
+        /* Right Panel - Preview */
+        .preview-panel {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            height: 100vh;
+        }
+
+        .preview-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--primary-gradient);
+            background-size: 200% 200%;
+            animation: gradientShift 3s ease-in-out infinite;
+        }
+
+        .preview-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--accent-color);
+            text-align: center;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .preview-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(99, 102, 241, 0.2);
+            border-radius: var(--border-radius);
+            min-height: 350px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .preview-container:hover {
+            border-color: var(--accent-color);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .preview-container.dragging {
+            border-color: var(--accent-glow);
+            background: rgba(139, 92, 246, 0.1);
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+        }
+
+        .preview-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 12px;
+            cursor: move;
+            transition: var(--transition);
+        }
+
+        .preview-image:hover {
+            transform: scale(1.02);
+        }
+
+        .preview-placeholder {
+            color: var(--text-secondary);
+            text-align: center;
+            font-style: italic;
+            font-size: 1rem;
+        }
+
+        .preview-controls {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            display: flex;
+            gap: 0.5rem;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .preview-container:hover .preview-controls {
+            opacity: 1;
+        }
+
+        .control-btn {
+            width: 36px;
+            height: 36px;
+            border: none;
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            color: white;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .control-btn:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-glow);
+        }
+
+        /* Loading States */
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top: 3px solid var(--accent-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            color: var(--text-secondary);
+            text-align: center;
+            font-size: 0.95rem;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .progress-container.visible {
+            opacity: 1;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--primary-gradient);
+            background-size: 200% 200%;
+            animation: gradientShift 2s ease-in-out infinite;
+            border-radius: 2px;
+            transform: translateX(-100%);
+            transition: transform 2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .progress-container.visible .progress-bar {
+            transform: translateX(0);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .app-container {
+                grid-template-columns: 350px 1fr 350px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .app-container {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto auto auto;
+            }
+            
+            .controls-panel,
+            .result-panel,
+            .preview-panel {
+                height: auto;
+                min-height: 50vh;
+            }
+        }
+
+        /* Error States */
+        .error {
+            color: var(--error-color);
+            font-weight: 600;
+        }
+
+        /* Logo Preview */
+        #logo-preview {
+            margin-top: 1rem;
+            min-height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #logo-preview img {
+            max-width: 100px;
+            max-height: 60px;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        #file-name-display {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 0.75rem;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <div class="app-container">
+        <!-- Left Panel - Controls -->
+        <div class="controls-panel">
+            <div class="header">
+                <h1 class="main-title">Générateur de Maquettes</h1>
+                <p class="subtitle">Maquettes de sacs tote professionnelles avec effets avancés</p>
+            </div>
+            
+            <form id="mockup-form" class="form-container">
+                <div class="form-group">
+                    <label for="logoFile" class="form-label">1. Téléchargez Votre Logo</label>
+                    <label for="logoFile" class="file-upload-zone" id="file-drop-zone">
+                        <div class="upload-text">
+                            <strong>Cliquez pour parcourir</strong> ou glisser-déposer
+                        </div>
+                        <div id="logo-preview"></div>
+                        <div id="file-name-display"></div>
+                    </label>
+                    <input type="file" id="logoFile" name="logoFile" accept="image/png, image/jpeg" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="color" class="form-label">2. Couleur du Sac</label>
+                    <div class="color-picker-container">
+                        <button class="custom-color-picker" id="custom-color-picker">
+                            Choisir Couleur
+                        </button>
+                        <input type="color" id="color" name="color" value="#FFFFFF" class="native-color-picker">
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <h3 class="control-title">Positionnement du Logo</h3>
+                    <div class="slider-container">
+                        <label class="slider-label">Gauche ↔ Droite</label>
+                        <input type="range" id="logoX" name="logoX" min="-200" max="200" value="0" class="slider">
+                        <div class="slider-value" id="logoX-value">0</div>
+                    </div>
+                    <div class="slider-container">
+                        <label class="slider-label">Haut ↔ Bas</label>
+                        <input type="range" id="logoY" name="logoY" min="-200" max="200" value="175" class="slider">
+                        <div class="slider-value" id="logoY-value">175</div>
+                    </div>
+                    <div class="slider-container">
+                        <label class="slider-label">Taille du Logo</label>
+                        <input type="range" id="logoWidth" name="logoWidth" min="200" max="800" value="450" class="slider">
+                        <div class="slider-value" id="logoWidth-value">450</div>
+                    </div>
+                </div>
+
+                <button type="submit" id="submit-btn" class="submit-btn">
+                    Finaliser et Ajouter au Panier
+                </button>
+            </form>
+        </div>
+
+        <!-- Center Panel - Result -->
+        <div class="result-panel">
+            <div class="result-container">
+                <div class="progress-container" id="progress-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+                <p id="status" class="status-text">Votre maquette professionnelle apparaîtra ici</p>
+                <img id="result-image" class="result-image" src="" alt="Maquette générée">
+                <div id="actions-container" class="actions-container"></div>
+            </div>
+        </div>
+
+        <!-- Right Panel - Preview -->
+        <div class="preview-panel">
+            <h3 class="preview-title">Aperçu en Temps Réel</h3>
+            <div class="preview-container" id="fixed-preview-container">
+                <div class="preview-placeholder" id="fixed-preview-placeholder">
+                    Téléchargez un logo pour voir l'aperçu en temps réel
+                </div>
+                <div class="preview-loading" id="preview-loading" style="display: none;">
+                    <div class="loading-spinner"></div>
+                    <div class="loading-text">Mise à jour de l'aperçu...</div>
+                </div>
+                <img id="fixed-preview-image" class="preview-image" style="display: none;" draggable="true">
+                <div class="preview-controls" id="fixed-preview-controls" style="display: none;">
+                    <button type="button" class="control-btn" id="fixed-center-logo" title="Centrer le Logo">⌂</button>
+                    <button type="button" class="control-btn" id="fixed-reset-logo" title="Réinitialiser Position">↺</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Color Picker Modal -->
+    <div class="color-picker-modal" id="color-picker-modal">
+        <div class="color-picker-panel">
+            <div class="color-picker-header">
+                <h3 class="color-picker-title">Sélecteur de Couleur</h3>
+                <button class="close-color-picker" id="close-color-picker">&times;</button>
+            </div>
+            
+            <div class="color-spectrum" id="color-spectrum">
+                <div class="color-cursor" id="color-cursor"></div>
+            </div>
+            
+            <div class="color-sliders">
+                <div class="color-slider-group">
+                    <label class="color-slider-label">R</label>
+                    <input type="range" class="color-slider red" id="red-slider" min="0" max="255" value="255">
+                    <div class="color-value" id="red-value">255</div>
+                </div>
+                <div class="color-slider-group">
+                    <label class="color-slider-label">G</label>
+                    <input type="range" class="color-slider green" id="green-slider" min="0" max="255" value="255">
+                    <div class="color-value" id="green-value">255</div>
+                </div>
+                <div class="color-slider-group">
+                    <label class="color-slider-label">B</label>
+                    <input type="range" class="color-slider blue" id="blue-slider" min="0" max="255" value="255">
+                    <div class="color-value" id="blue-value">255</div>
+                </div>
+            </div>
+            
+            <!-- Hex Color Input -->
+            <div class="hex-input-group">
+                <label class="hex-input-label">Code Hexadécimal</label>
+                <div class="hex-input-container">
+                    <span class="hex-prefix">#</span>
+                    <input type="text" class="hex-input" id="hex-input" value="FFFFFF" maxlength="6" placeholder="FFFFFF">
+                    <button class="hex-apply-btn" id="hex-apply-btn">✓</button>
+                </div>
+            </div>
+            
+            <div class="color-presets">
+                <div class="color-preset" style="background: #ff0000;" data-color="#ff0000"></div>
+                <div class="color-preset" style="background: #ff8000;" data-color="#ff8000"></div>
+                <div class="color-preset" style="background: #ffff00;" data-color="#ffff00"></div>
+                <div class="color-preset" style="background: #80ff00;" data-color="#80ff00"></div>
+                <div class="color-preset" style="background: #00ff00;" data-color="#00ff00"></div>
+                <div class="color-preset" style="background: #00ff80;" data-color="#00ff80"></div>
+                <div class="color-preset" style="background: #00ffff;" data-color="#00ffff"></div>
+                <div class="color-preset" style="background: #0080ff;" data-color="#0080ff"></div>
+                <div class="color-preset" style="background: #0000ff;" data-color="#0000ff"></div>
+                <div class="color-preset" style="background: #8000ff;" data-color="#8000ff"></div>
+                <div class="color-preset" style="background: #ff00ff;" data-color="#ff00ff"></div>
+                <div class="color-preset" style="background: #ff0080;" data-color="#ff0080"></div>
+                <div class="color-preset" style="background: #000000;" data-color="#000000"></div>
+                <div class="color-preset" style="background: #808080;" data-color="#808080"></div>
+                <div class="color-preset" style="background: #ffffff;" data-color="#ffffff"></div>
+                <div class="color-preset" style="background: #c0c0c0;" data-color="#c0c0c0"></div>
+            </div>
+            
+            <div class="color-picker-actions">
+                <button class="color-picker-btn color-picker-cancel" id="color-picker-cancel">Annuler</button>
+                <button class="color-picker-btn color-picker-apply" id="color-picker-apply">Appliquer</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const form = document.getElementById('mockup-form');
+        const submitBtn = document.getElementById('submit-btn');
+        const statusEl = document.getElementById('status');
+        const resultImage = document.getElementById('result-image');
+        const actionsContainer = document.getElementById('actions-container');
+        const progressContainer = document.getElementById('progress-container');
+        const progressBar = document.getElementById('progress-bar');
+        
+        // File upload elements
+        const fileInput = document.getElementById('logoFile');
+        const dropZone = document.getElementById('file-drop-zone');
+        const logoPreview = document.getElementById('logo-preview');
+        const fileNameDisplay = document.getElementById('file-name-display');
+
+        // Preview controls
+        const previewContainer = document.getElementById('fixed-preview-container');
+        const previewImage = document.getElementById('fixed-preview-image');
+        const previewPlaceholder = document.getElementById('fixed-preview-placeholder');
+        const previewLoading = document.getElementById('preview-loading');
+        const previewControls = document.getElementById('fixed-preview-controls');
+        const centerLogoBtn = document.getElementById('fixed-center-logo');
+        const resetLogoBtn = document.getElementById('fixed-reset-logo');
+        
+        // Control elements
+        const logoXSlider = document.getElementById('logoX');
+        const logoYSlider = document.getElementById('logoY');
+        const logoWidthSlider = document.getElementById('logoWidth');
+        
+        // Value displays
+        const logoXValue = document.getElementById('logoX-value');
+        const logoYValue = document.getElementById('logoY-value');
+        const logoWidthValue = document.getElementById('logoWidth-value');
+        
+        // State
+        let currentLogoFile = null;
+        let previewTimeout = null;
+        let isDragging = false;
+        let dragStart = { x: 0, y: 0 };
+
+        // File drag and drop
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, e => e.preventDefault(), false);
+        });
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, () => dropZone.classList.add('dragover'), false);
+        });
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, () => dropZone.classList.remove('dragover'), false);
+        });
+        dropZone.addEventListener('drop', (e) => {
+            fileInput.files = e.dataTransfer.files;
+            handleFileSelection();
+        });
+
+        // File selection handler
+        fileInput.addEventListener('change', handleFileSelection);
+
+        function handleFileSelection() {
+            logoPreview.innerHTML = '';
+            fileNameDisplay.textContent = '';
+            
+            if (!fileInput.files || fileInput.files.length === 0) {
+                hidePreview();
+                return;
+            }
+
+            const file = fileInput.files[0];
+            currentLogoFile = file;
+            fileNameDisplay.textContent = file.name;
+            
+            // Clear any pending preview updates
+            if (previewTimeout) {
+                clearTimeout(previewTimeout);
+                previewTimeout = null;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                logoPreview.appendChild(img);
+                showPreviewLoading();
+                updatePreview();
+            }
+            reader.readAsDataURL(file);
+        }
+
+        function showPreview() {
+            previewPlaceholder.style.display = 'none';
+            previewLoading.style.display = 'none';
+            previewImage.style.display = 'block';
+            previewControls.style.display = 'flex';
+        }
+
+        function hidePreview() {
+            previewPlaceholder.style.display = 'block';
+            previewLoading.style.display = 'none';
+            previewImage.style.display = 'none';
+            previewControls.style.display = 'none';
+        }
+
+        function showPreviewLoading() {
+            previewPlaceholder.style.display = 'none';
+            previewImage.style.display = 'none';
+            previewLoading.style.display = 'block';
+            previewControls.style.display = 'none';
+        }
+
+        // Real-time preview generation
+        async function updatePreview() {
+            if (!currentLogoFile) {
+                hidePreview();
+                return;
+            }
+            
+            showPreviewLoading();
+            
+            clearTimeout(previewTimeout);
+            previewTimeout = setTimeout(async () => {
+                try {
+                    const formData = new FormData();
+                    formData.append('logoFile', currentLogoFile);
+                    formData.append('logoX', logoXSlider.value);
+                    formData.append('logoY', logoYSlider.value);
+                    formData.append('logoWidth', logoWidthSlider.value);
+                    formData.append('color', document.getElementById('color').value);
+
+                    const response = await fetch(`/preview?t=${Date.now()}`, {
+                        method: 'POST',
+                        body: formData,
+                    });
+
+                    if (response.ok) {
+                        const imageBlob = await response.blob();
+                        const imageUrl = URL.createObjectURL(imageBlob);
+                        previewImage.src = imageUrl;
+                        showPreview();
+                    } else {
+                        hidePreview();
+                    }
+                } catch (error) {
+                    console.error('Preview error:', error);
+                    hidePreview();
+                }
+            }, 300);
+        }
+
+        // Slider event listeners
+        [logoXSlider, logoYSlider, logoWidthSlider].forEach(slider => {
+            slider.addEventListener('input', (e) => {
+                const valueDisplay = document.getElementById(e.target.id + '-value');
+                valueDisplay.textContent = e.target.value;
+                updatePreview();
+            });
+        });
+
+        // Custom Color Picker
+        const customColorPicker = document.getElementById('custom-color-picker');
+        const colorPickerModal = document.getElementById('color-picker-modal');
+        const closeColorPicker = document.getElementById('close-color-picker');
+        const colorPickerCancel = document.getElementById('color-picker-cancel');
+        const colorPickerApply = document.getElementById('color-picker-apply');
+        const colorSpectrum = document.getElementById('color-spectrum');
+        const colorCursor = document.getElementById('color-cursor');
+        const redSlider = document.getElementById('red-slider');
+        const greenSlider = document.getElementById('green-slider');
+        const blueSlider = document.getElementById('blue-slider');
+        const redValue = document.getElementById('red-value');
+        const greenValue = document.getElementById('green-value');
+        const blueValue = document.getElementById('blue-value');
+        const colorPresets = document.querySelectorAll('.color-preset');
+        const nativeColorPicker = document.getElementById('color');
+        const hexInput = document.getElementById('hex-input');
+        const hexApplyBtn = document.getElementById('hex-apply-btn');
+
+        let currentColor = '#FFFFFF';
+        let isColorDragging = false;
+
+        // Open color picker modal
+        customColorPicker.addEventListener('click', () => {
+            colorPickerModal.classList.add('active');
+            updateColorFromRGB(255, 255, 255);
+        });
+
+        // Close color picker modal
+        function closeColorPickerModal() {
+            colorPickerModal.classList.remove('active');
+        }
+
+        closeColorPicker.addEventListener('click', closeColorPickerModal);
+        colorPickerCancel.addEventListener('click', closeColorPickerModal);
+        colorPickerModal.addEventListener('click', (e) => {
+            if (e.target === colorPickerModal) {
+                closeColorPickerModal();
+            }
+        });
+
+        // Color spectrum interaction
+        colorSpectrum.addEventListener('mousedown', (e) => {
+            isColorDragging = true;
+            updateColorFromSpectrum(e);
+        });
+
+        colorSpectrum.addEventListener('mousemove', (e) => {
+            if (isColorDragging) {
+                updateColorFromSpectrum(e);
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            isColorDragging = false;
+        });
+
+        function updateColorFromSpectrum(e) {
+            const rect = colorSpectrum.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const xPercent = Math.max(0, Math.min(100, (x / rect.width) * 100));
+            const yPercent = Math.max(0, Math.min(100, (y / rect.height) * 100));
+            
+            // Convert position to RGB
+            const hue = (xPercent / 100) * 360;
+            const saturation = 100;
+            const lightness = 100 - (yPercent / 100) * 100;
+            
+            const rgb = hslToRgb(hue, saturation, lightness);
+            updateColorFromRGB(rgb[0], rgb[1], rgb[2]);
+            
+            // Update cursor position
+            colorCursor.style.left = xPercent + '%';
+            colorCursor.style.top = yPercent + '%';
+        }
+
+        function hslToRgb(h, s, l) {
+            h /= 360;
+            s /= 100;
+            l /= 100;
+            
+            const c = (1 - Math.abs(2 * l - 1)) * s;
+            const x = c * (1 - Math.abs((h * 6) % 2 - 1));
+            const m = l - c / 2;
+            
+            let r, g, b;
+            
+            if (0 <= h && h < 1/6) {
+                r = c; g = x; b = 0;
+            } else if (1/6 <= h && h < 2/6) {
+                r = x; g = c; b = 0;
+            } else if (2/6 <= h && h < 3/6) {
+                r = 0; g = c; b = x;
+            } else if (3/6 <= h && h < 4/6) {
+                r = 0; g = x; b = c;
+            } else if (4/6 <= h && h < 5/6) {
+                r = x; g = 0; b = c;
+            } else if (5/6 <= h && h < 1) {
+                r = c; g = 0; b = x;
+            }
+            
+            return [Math.round((r + m) * 255), Math.round((g + m) * 255), Math.round((b + m) * 255)];
+        }
+
+        // RGB sliders
+        [redSlider, greenSlider, blueSlider].forEach(slider => {
+            slider.addEventListener('input', (e) => {
+                const r = parseInt(redSlider.value);
+                const g = parseInt(greenSlider.value);
+                const b = parseInt(blueSlider.value);
+                updateColorFromRGB(r, g, b);
+            });
+        });
+
+        function updateColorFromRGB(r, g, b) {
+            redSlider.value = r;
+            greenSlider.value = g;
+            blueSlider.value = b;
+            redValue.textContent = r;
+            greenValue.textContent = g;
+            blueValue.textContent = b;
+            
+            currentColor = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`.toUpperCase();
+            customColorPicker.style.background = currentColor;
+            hexInput.value = currentColor.substring(1);
+            hexInput.classList.remove('valid', 'invalid');
+        }
+
+        // Color presets
+        colorPresets.forEach(preset => {
+            preset.addEventListener('click', () => {
+                const color = preset.dataset.color;
+                const rgb = hexToRgb(color);
+                updateColorFromRGB(rgb.r, rgb.g, rgb.b);
+            });
+        });
+
+        function hexToRgb(hex) {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : null;
+        }
+
+        // Apply color
+        colorPickerApply.addEventListener('click', () => {
+            nativeColorPicker.value = currentColor;
+            updatePreview();
+            closeColorPickerModal();
+        });
+
+        // Hex input functionality
+        hexInput.addEventListener('input', (e) => {
+            const value = e.target.value.toUpperCase();
+            e.target.value = value;
+            
+            // Validate hex input
+            if (isValidHex(value)) {
+                hexInput.classList.remove('invalid');
+                hexInput.classList.add('valid');
+            } else {
+                hexInput.classList.remove('valid');
+                if (value.length === 6) {
+                    hexInput.classList.add('invalid');
+                }
+            }
+        });
+
+        hexInput.addEventListener('keypress', (e) => {
+            // Only allow hex characters (0-9, A-F)
+            const char = e.key.toUpperCase();
+            if (!/[0-9A-F]/.test(char) && e.key !== 'Backspace' && e.key !== 'Delete' && e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') {
+                e.preventDefault();
+            }
+        });
+
+        hexInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                applyHexColor();
+            }
+        });
+
+        hexApplyBtn.addEventListener('click', applyHexColor);
+
+        function isValidHex(hex) {
+            return /^[0-9A-F]{6}$/.test(hex);
+        }
+
+        function applyHexColor() {
+            const hexValue = hexInput.value;
+            if (isValidHex(hexValue)) {
+                const rgb = hexToRgb('#' + hexValue);
+                if (rgb) {
+                    updateColorFromRGB(rgb.r, rgb.g, rgb.b);
+                    hexInput.classList.remove('invalid');
+                    hexInput.classList.add('valid');
+                }
+            } else {
+                hexInput.classList.add('invalid');
+            }
+        }
+
+        // Native color picker fallback
+        nativeColorPicker.addEventListener('input', (e) => {
+            currentColor = e.target.value;
+            customColorPicker.style.background = currentColor;
+            updatePreview();
+        });
+
+        // Preview controls
+        centerLogoBtn.addEventListener('click', () => {
+            logoXSlider.value = 0;
+            logoYSlider.value = 175;
+            logoXValue.textContent = '0';
+            logoYValue.textContent = '175';
+            updatePreview();
+        });
+
+        resetLogoBtn.addEventListener('click', () => {
+            logoXSlider.value = 0;
+            logoYSlider.value = 175;
+            logoWidthSlider.value = 450;
+            logoXValue.textContent = '0';
+            logoYValue.textContent = '175';
+            logoWidthValue.textContent = '450';
+            updatePreview();
+        });
+
+        // Drag and drop for logo positioning
+        previewImage.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            dragStart = { x: e.clientX, y: e.clientY };
+            previewContainer.classList.add('dragging');
+            e.preventDefault();
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            
+            const deltaX = e.clientX - dragStart.x;
+            const deltaY = e.clientY - dragStart.y;
+            
+            const newX = Math.max(-200, Math.min(200, logoXSlider.valueAsNumber + deltaX * 0.5));
+            const newY = Math.max(-200, Math.min(200, logoYSlider.valueAsNumber + deltaY * 0.5));
+            
+            logoXSlider.value = newX;
+            logoYSlider.value = newY;
+            logoXValue.textContent = Math.round(newX);
+            logoYValue.textContent = Math.round(newY);
+            
+            dragStart = { x: e.clientX, y: e.clientY };
+            updatePreview();
+        });
+
+        document.addEventListener('mouseup', () => {
+            if (isDragging) {
+                isDragging = false;
+                previewContainer.classList.remove('dragging');
+            }
+        });
+
+        // Form submission
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault(); // Prevent default form submission
+            if (!currentLogoFile) {
+                showError('Veuillez d\'abord sélectionner un logo.');
+                return;
+            }
+            
+            setLoadingState(true, 'Finalisation de votre design...'); // Update loading text
+            
+            try {
+                // Step 1: Create FormData with all the design parameters
+                const formData = new FormData();
+                formData.append('logoFile', currentLogoFile);
+                formData.append('color', document.getElementById('color').value);
+                formData.append('logoX', logoXSlider.value);
+                formData.append('logoY', logoYSlider.value);
+                formData.append('logoWidth', logoWidthSlider.value);
+
+                // Step 2: Call the NEW backend endpoint to process and upload files
+                const response = await fetch('/finalize-for-shopify', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.details || 'Could not process your design.');
+                }
+                
+                const designData = await response.json();
+                // At this point, designData is: { mockupUrl, originalLogoUrl, config }
+
+                // --- THIS IS THE PART FOR LOCAL TESTING ---
+                // We can't actually add to a Shopify cart from a local file,
+                // but we can log the data to confirm it's ready.
+                console.log("SUCCESS! Ready to add to Shopify cart with this data:");
+                console.log({
+                    id: 1234567890123, // This will be your real variant ID
+                    quantity: 1,
+                    properties: {
+                        'Custom Mockup': `<a href="${designData.mockupUrl}" target="_blank">View Mockup</a>`,
+                        'Original Logo': `<a href="${designData.originalLogoUrl}" target="_blank">Download Logo</a>`,
+                        'Tote Color': designData.config.color,
+                        'Logo X Position': designData.config.logoX,
+                        'Logo Y Position': designData.config.logoY,
+                        'Logo Width': designData.config.logoWidth,
+                        '_preview_image': designData.mockupUrl 
+                    }
+                });
+                
+                // Show a success message for local testing
+                showSuccessForLocalTest(designData.mockupUrl);
+                
+                // In a real Shopify environment, the next lines would be:
+                /*
+                const shopifyResponse = await fetch('/cart/add.js', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(shopifyPayload) // where shopifyPayload is the object above
+                });
+                if (!shopifyResponse.ok) throw new Error('Could not add to cart.');
+                window.location.href = '/cart';
+                */
+
+
+            } catch (error) {
+                console.error('Error during finalization:', error);
+                showError(error.message);
+            } finally {
+                setLoadingState(false);
+            }
+        });
+        
+        // UI state management functions
+        function setLoadingState(isLoading) {
+            submitBtn.disabled = isLoading;
+            if (isLoading) {
+                submitBtn.textContent = 'Génération en cours...';
+                statusEl.textContent = 'Traitement des effets avancés et textures...';
+                statusEl.style.display = 'block';
+                statusEl.classList.remove('error');
+                resultImage.classList.remove('visible');
+                resultImage.style.display = 'none';
+                resultImage.src = '';
+                actionsContainer.innerHTML = '';
+                
+                // Animate progress bar
+                progressContainer.classList.add('visible');
+                progressBar.style.transition = 'none';
+                progressBar.style.transform = 'translateX(-100%)';
+                setTimeout(() => {
+                     progressBar.style.transition = 'transform 2s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                     progressBar.style.transform = 'translateX(0%)';
+                }, 20);
+
+            } else {
+                submitBtn.textContent = 'Finaliser et Ajouter au Panier';
+                progressContainer.classList.remove('visible');
+            }
+        }
+
+         // A new success function specifically for local testing, since we can't redirect
+         function showSuccessForLocalTest(imageUrl) {
+            statusEl.textContent = 'Succès ! Vérifiez la console et votre Cloudinary.';
+            statusEl.style.display = 'block';
+            statusEl.classList.remove('error');
+            
+            resultImage.onload = () => {
+                resultImage.style.display = 'block';
+                resultImage.classList.add('visible');
+            };
+            resultImage.src = imageUrl;
+
+            actionsContainer.innerHTML = `<p style="color: var(--text-secondary); font-size: 0.9rem;">Normalement, vous seriez redirigé vers le panier Shopify.</p>`;
+        }
+
+        function showSuccess(imageUrl) {
+            statusEl.style.display = 'none';
+            
+            resultImage.onload = () => {
+                resultImage.style.display = 'block';
+                resultImage.classList.add('visible');
+            };
+            
+                resultImage.src = imageUrl;
+            
+            const downloadLink = document.createElement('a');
+            downloadLink.className = 'action-btn download-btn';
+            downloadLink.href = imageUrl;
+            downloadLink.download = `maquette-professionnelle-${Date.now()}.jpg`;
+            downloadLink.textContent = 'Télécharger Maquette';
+            
+            const newMockupBtn = document.createElement('button');
+            newMockupBtn.className = 'action-btn new-mockup-btn';
+            newMockupBtn.textContent = 'Nouvelle Maquette';
+            newMockupBtn.onclick = () => {
+                resetEverything();
+            };
+            
+            actionsContainer.innerHTML = '';
+            actionsContainer.appendChild(downloadLink);
+            actionsContainer.appendChild(newMockupBtn);
+        }
+
+        function showError(message) {
+            statusEl.style.display = 'block';
+            resultImage.classList.remove('visible');
+            actionsContainer.innerHTML = '';
+            statusEl.textContent = `Erreur: ${message}`;
+            statusEl.classList.add('error');
+        }
+
+        function resetEverything() {
+            // Reset all form values to defaults
+            document.getElementById('color').value = '#FFFFFF';
+            document.getElementById('logoX').value = 0;
+            document.getElementById('logoY').value = 175;
+            document.getElementById('logoWidth').value = 450;
+            
+            // Reset value displays
+            document.getElementById('logoX-value').textContent = '0';
+            document.getElementById('logoY-value').textContent = '175';
+            document.getElementById('logoWidth-value').textContent = '450';
+            
+            // Clear file input and preview
+            document.getElementById('logoFile').value = '';
+            document.getElementById('logo-preview').innerHTML = '';
+            document.getElementById('file-name-display').textContent = '';
+            currentLogoFile = null;
+            
+            // Clear any pending preview updates
+            if (previewTimeout) {
+                clearTimeout(previewTimeout);
+                previewTimeout = null;
+            }
+            
+            // Hide preview and show placeholder
+            hidePreview();
+            
+            // Clear result area
+            resultImage.src = '';
+            resultImage.style.display = 'none';
+            resultImage.classList.remove('visible');
+            statusEl.textContent = 'Votre maquette professionnelle apparaîtra ici';
+            statusEl.style.display = 'block';
+            statusEl.classList.remove('error');
+            actionsContainer.innerHTML = '';
+            
+            // Reset progress bar
+            progressContainer.classList.remove('visible');
+            
+            // Reset submit button
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Générer Maquette Professionnelle';
+        }
+    </script>
+</body>
+</html>
