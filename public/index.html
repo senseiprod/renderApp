@@ -6,26 +6,36 @@
     <title>Générateur de Maquettes Professionnel - Designer de Sacs Tote</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- MODIFIED: Added Poppins font for the header to create a distinct look -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@700&display=swap" rel="stylesheet">
     <style>
-        /* HORIZON THEME AESTHETIC REFACTOR */
+        /* AESTHETIC REFACTOR v2: Unique Brand Identity */
         :root {
+            /* MODIFIED: Introduced a distinct accent color */
+            --color-accent: #4f46e5; /* A professional Indigo */
+            --color-accent-hover: #4338ca;
+            --color-accent-light: #eef2ff;
+
             --color-background: #FFFFFF;
             --color-surface: #FFFFFF;
             --color-border: #E5E7EB;
             --color-border-hover: #D1D5DB;
             --color-text-primary: #111827;
             --color-text-secondary: #6B7280;
-            --color-accent: #111827; /* A solid, dark color for buttons */
-            --color-accent-hover: #374151;
             --color-accent-text: #FFFFFF;
             --color-success: #10B981;
             --color-error: #EF4444;
-            --border-radius: 8px; /* Slightly softer corners */
+            
+            --border-radius: 12px; /* Slightly larger radius for a softer feel */
+            --border-radius-pill: 50px;
             --transition: all 0.2s ease-in-out;
             --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
             --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
             --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            
+            /* MODIFIED: Added a distinct font for display headers */
+            --font-display: 'Poppins', sans-serif;
+            --font-body: 'Inter', sans-serif;
         }
 
         * {
@@ -35,7 +45,7 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: var(--font-body);
             background: var(--color-background);
             color: var(--color-text-primary);
             overflow-x: hidden;
@@ -43,9 +53,6 @@
             -moz-osx-font-smoothing: grayscale;
         }
 
-        /* Removed all complex background animations */
-
-        /* Main Container */
         .app-container {
             display: grid;
             grid-template-columns: 380px 1fr;
@@ -54,7 +61,6 @@
             margin: 0 auto;
         }
 
-        /* Left Panel - Controls */
         .controls-panel {
             background: var(--color-surface);
             border-right: 1px solid var(--color-border);
@@ -64,18 +70,21 @@
         }
 
         .header {
-            text-align: left; /* More common for professional themes */
+            text-align: left;
             margin-bottom: 2.5rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 1px solid var(--color-border);
         }
 
         .main-title {
-            font-family: 'Inter', sans-serif; /* Changed font */
-            font-size: 1.75rem; /* Adjusted size */
+            font-family: var(--font-display); /* Using distinct font */
+            font-size: 2rem;
             font-weight: 700;
-            color: var(--color-text-primary); /* Simple text color */
+            color: var(--color-text-primary);
             margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+        
+        .main-title span {
+            color: var(--color-accent); /* Highlighting one word */
         }
 
         .subtitle {
@@ -84,7 +93,6 @@
             line-height: 1.5;
         }
 
-        /* Form Styles */
         .form-container {
             display: flex;
             flex-direction: column;
@@ -98,471 +106,141 @@
         .form-label {
             display: block;
             font-weight: 600;
-            margin-bottom: 0.75rem; /* Adjusted spacing */
+            margin-bottom: 0.75rem;
             color: var(--color-text-primary);
-            letter-spacing: normal; /* Removed letter-spacing */
             font-size: 0.9rem;
         }
-
-        /* File Upload Zone */
+        
         .file-upload-zone {
-            background: var(--color-background);
+            background: #f9fafb; /* Lighter background for dropzone */
             border: 2px dashed var(--color-border);
             border-radius: var(--border-radius);
             padding: 2rem 1.5rem;
             text-align: center;
             cursor: pointer;
             transition: var(--transition);
-            min-height: 120px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
         }
 
         .file-upload-zone:hover,
         .file-upload-zone.dragover {
             border-color: var(--color-accent);
-            background-color: #f9fafb;
+            background-color: var(--color-accent-light);
         }
         
         .upload-text strong {
              color: var(--color-accent);
         }
 
-        .upload-text {
-            color: var(--color-text-secondary);
-            font-size: 0.9rem;
-            margin-bottom: 0.75rem;
-            line-height: 1.4;
-        }
+        #logoFile { display: none; }
 
-        #logoFile {
-            display: none;
-        }
-
-        /* Custom Color Picker Container */
-        .color-picker-container {
-            border: 1px solid var(--color-border);
-            border-radius: var(--border-radius);
-            padding: 4px;
-        }
-        
-        /* Custom Color Picker Button */
         .custom-color-picker {
-            width: 100%;
-            height: 48px; /* Standard height */
-            border: none;
-            border-radius: 6px; /* Inner radius */
-            cursor: pointer;
-            background: #FFFFFF; /* Default color */
+            width: 100%; height: 48px; border: 1px solid var(--color-border);
+            border-radius: var(--border-radius); cursor: pointer; background: #FFFFFF;
             transition: var(--transition);
-            box-shadow: inset 0 0 0 1px rgba(0,0,0,0.1); /* Subtle inner border */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--color-text-secondary);
-            font-weight: 500;
-            font-size: 0.9rem;
         }
-        
         .custom-color-picker:hover {
-            opacity: 0.9;
+            border-color: var(--color-border-hover);
         }
+        .native-color-picker { display: none; }
         
-        /* Hidden Native Color Picker */
-        .native-color-picker {
-            display: none;
-        }
-
-        /* Custom Color Picker Modal */
-        .color-picker-modal {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.4);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .color-picker-modal.active {
-            display: flex;
-        }
-
-        .color-picker-panel {
-            background: var(--color-surface);
-            border-radius: var(--border-radius);
-            padding: 1.5rem;
-            border: 1px solid var(--color-border);
-            box-shadow: var(--shadow-md);
-            max-width: 320px;
-            width: 90%;
-        }
-
-        .color-picker-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .color-picker-title {
-            font-family: 'Inter', sans-serif;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--color-text-primary);
-        }
-
-        .close-color-picker {
-            background: none; border: none;
-            color: var(--color-text-secondary);
-            font-size: 1.5rem; cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .close-color-picker:hover {
-            color: var(--color-text-primary);
-        }
-
-        .color-spectrum {
-            width: 100%; height: 150px;
-            border-radius: 6px; cursor: crosshair;
-            position: relative;
-            background: linear-gradient(to right, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000);
-            margin-bottom: 1rem;
-            border: 1px solid var(--color-border);
-        }
-
-        .color-spectrum::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(to bottom, transparent, #000);
-            border-radius: 6px;
-        }
-
-        .color-cursor {
-            position: absolute; width: 18px; height: 18px;
-            border: 2px solid white; border-radius: 50%;
-            box-shadow: 0 0 0 1px rgba(0,0,0,0.5);
-            transform: translate(-50%, -50%); pointer-events: none; z-index: 2;
-        }
-
-        .color-sliders {
-            display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1rem;
-        }
-
-        .color-slider-group {
-            display: flex; align-items: center; gap: 0.75rem;
-        }
-
-        .color-slider-label {
-            min-width: 15px; font-weight: 500; color: var(--color-text-primary); font-size: 0.8rem;
-        }
-
-        .color-slider {
-            flex: 1; height: 6px; border-radius: 3px; outline: none; -webkit-appearance: none; appearance: none;
-            background: var(--color-border); cursor: pointer;
-        }
-
-        .color-slider::-webkit-slider-thumb {
-            -webkit-appearance: none; appearance: none;
-            width: 16px; height: 16px; border-radius: 50%;
-            background: white; cursor: pointer; border: 1px solid var(--color-border-hover);
-            box-shadow: var(--shadow-sm);
-        }
-        
-        .color-value {
-            min-width: 40px; text-align: center; font-weight: 500;
-            color: var(--color-text-secondary); background: #f9fafb;
-            padding: 0.25rem 0.5rem; border-radius: 4px; border: 1px solid var(--color-border);
-            font-size: 0.8rem;
-        }
-
-        .color-presets {
-            display: grid; grid-template-columns: repeat(8, 1fr); gap: 0.4rem; margin-bottom: 1rem;
-        }
-
-        .color-preset {
-            width: 32px; height: 32px; border-radius: 6px; cursor: pointer;
-            transition: var(--transition); border: 2px solid transparent;
-        }
-        .color-preset:hover {
-            transform: scale(1.1); border-color: var(--color-accent);
-        }
-        
-        .color-picker-actions {
-            display: flex; gap: 0.75rem; justify-content: flex-end;
-            margin-top: 1rem;
-        }
-
-        .color-picker-btn {
-            padding: 0.6rem 1.25rem; border: none; border-radius: 6px;
-            font-weight: 600; cursor: pointer; transition: var(--transition);
-            font-size: 0.85rem;
-        }
-        
-        .color-picker-cancel {
-            background: var(--color-surface);
-            color: var(--color-text-primary);
-            border: 1px solid var(--color-border);
-            box-shadow: var(--shadow-sm);
-        }
-        .color-picker-cancel:hover {
-            background-color: #f9fafb;
-        }
-        
-        .color-picker-apply {
-            background: var(--color-accent); color: var(--color-accent-text);
-        }
-        .color-picker-apply:hover {
-            background: var(--color-accent-hover);
-        }
-        
-        .hex-input-group { margin-bottom: 1rem; }
-        .hex-input-label { display: block; font-weight: 500; color: var(--color-text-secondary); margin-bottom: 0.5rem; font-size: 0.8rem; }
-        .hex-input-container {
-            display: flex; align-items: center; background: var(--color-surface);
-            border: 1px solid var(--color-border); border-radius: 6px; padding: 0.5rem;
-            transition: var(--transition);
-        }
-        .hex-input-container:focus-within {
-            border-color: var(--color-accent); box-shadow: 0 0 0 2px rgba(17, 24, 39, 0.1);
-        }
-        .hex-prefix { color: var(--color-text-secondary); font-weight: 500; margin-right: 0.5rem; }
-        .hex-input {
-            flex: 1; background: transparent; border: none; outline: none;
-            color: var(--color-text-primary); font-family: monospace;
-            font-size: 0.9rem; text-transform: uppercase;
-        }
-        .hex-apply-btn { display: none; } /* Simplified - applies on enter or blur */
-
-        /* Control Groups */
         .control-group {
             background: var(--color-surface);
             border: 1px solid var(--color-border);
             border-radius: var(--border-radius);
             padding: 1.5rem;
+            box-shadow: var(--shadow); /* Added a bit more depth */
         }
 
         .control-title {
-            font-family: 'Inter', sans-serif;
+            font-family: var(--font-body);
             font-size: 1rem;
             font-weight: 600;
             color: var(--color-text-primary);
             margin-bottom: 1.25rem;
-        }
-
-        /* Sliders */
-        .slider-container {
-            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--color-border);
         }
         
-        .slider-label-group {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.75rem;
-        }
+        .slider-label-group { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
+        .slider-label { font-weight: 500; color: var(--color-text-primary); font-size: 0.85rem; }
+        .slider-value { font-weight: 500; color: var(--color-text-secondary); font-size: 0.85rem; }
+        .slider-container { margin-bottom: 1rem; }
         
-        .slider-label {
-            font-weight: 500;
-            color: var(--color-text-primary);
-            font-size: 0.85rem;
-        }
-        
-        .slider-value {
-             font-weight: 500;
-             color: var(--color-text-secondary);
-             font-size: 0.85rem;
-        }
-
         .slider {
-            width: 100%;
-            height: 6px;
-            border-radius: 3px;
-            background: var(--color-border);
-            outline: none;
-            -webkit-appearance: none;
-            appearance: none;
-            transition: var(--transition);
+            width: 100%; height: 6px; border-radius: 3px; background: #e0e7ff;
+            outline: none; -webkit-appearance: none; appearance: none; transition: var(--transition);
         }
-        
         .slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            background: var(--color-accent);
-            cursor: pointer;
-            transition: var(--transition);
-            border: 2px solid var(--color-surface);
-            box-shadow: 0 0 0 1px var(--color-border-hover);
+            -webkit-appearance: none; appearance: none;
+            width: 18px; height: 18px; border-radius: 50%;
+            background: var(--color-accent); cursor: pointer; transition: var(--transition);
         }
         
-        .slider::-webkit-slider-thumb:hover {
-            transform: scale(1.1);
-        }
-
-        /* Submit Button */
         .submit-btn {
             width: 100%;
             padding: 0.875rem 1.5rem;
             background: var(--color-accent);
             border: 1px solid var(--color-accent);
-            border-radius: var(--border-radius);
+            border-radius: var(--border-radius-pill); /* MODIFIED: Pill shape for distinction */
             color: var(--color-accent-text);
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             transition: var(--transition);
             margin-top: 1rem;
+            box-shadow: var(--shadow);
         }
-        
         .submit-btn:hover {
             background: var(--color-accent-hover);
             border-color: var(--color-accent-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
         }
-
         .submit-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
+            opacity: 0.6; cursor: not-allowed;
+            transform: none; box-shadow: none;
         }
 
-        /* Display Panel */
         .display-panel {
-            background-color: #f9fafb; /* A slightly off-white background */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 2rem;
-            height: 100vh;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            padding: 2rem; height: 100vh;
+            /* MODIFIED: Subtle pattern to create a "canvas" feel */
+            background-color: #f9fafb;
+            background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+            background-size: 16px 16px;
         }
         
         .display-container {
-            text-align: center;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            text-align: center; width: 100%; height: 100%;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
         }
         
         #result-image, #preview-image {
-             max-width: 100%;
-             max-height: 80vh;
-             object-fit: contain;
-             border-radius: var(--border-radius);
-             border: 1px solid var(--color-border);
-             background-color: var(--color-surface);
+             max-width: 100%; max-height: 80vh; object-fit: contain;
+             border-radius: var(--border-radius); border: 1px solid var(--color-border);
+             background-color: var(--color-surface); box-shadow: var(--shadow-md);
         }
-
-        #result-image {
-            opacity: 0;
-            transform: scale(0.95);
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
+        #result-image { opacity: 0; transform: scale(0.95); transition: opacity 0.3s ease, transform 0.3s ease; }
+        #result-image.visible { opacity: 1; transform: scale(1); }
         
-        #result-image.visible {
-            opacity: 1;
-            transform: scale(1);
-        }
+        .status-text { font-size: 1rem; color: var(--color-text-secondary); margin-bottom: 1.5rem; }
 
-        .status-text {
-            font-size: 1rem;
-            color: var(--color-text-secondary);
-            margin-bottom: 1.5rem;
-        }
-
-        .actions-container {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            margin-top: 2rem;
-        }
-
+        .actions-container { display: flex; gap: 1rem; justify-content: center; margin-top: 2rem; }
         .action-btn {
-            padding: 0.75rem 1.5rem;
-            border: 1px solid var(--color-border);
-            border-radius: var(--border-radius);
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            text-decoration: none;
-            display: inline-block;
-            font-size: 0.9rem;
-            background: var(--color-surface);
-            color: var(--color-text-primary);
+            padding: 0.75rem 1.5rem; border: 1px solid var(--color-border);
+            border-radius: var(--border-radius-pill); /* Pill shape for consistency */
+            font-weight: 600; cursor: pointer; transition: var(--transition);
+            font-size: 0.9rem; background: var(--color-surface); color: var(--color-text-primary);
         }
-
-        .action-btn:hover {
-            background-color: #f3f4f6;
-            border-color: var(--color-border-hover);
-        }
+        .action-btn:hover { background-color: #f3f4f6; border-color: var(--color-border-hover); }
 
         .preview-container {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
             position: relative;
-            border: 1px solid var(--color-border);
-            border-radius: var(--border-radius);
-            background-color: var(--color-surface);
-            transition: var(--transition);
         }
         
-        .preview-container.dragging {
-            border-color: var(--color-accent);
-            box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.1);
-        }
-
-        #preview-image {
-            cursor: move;
-            border: none;
-        }
-
-        #preview-placeholder {
-            color: var(--color-text-secondary);
-            text-align: center;
-            font-size: 1rem;
-        }
+        #preview-image { cursor: move; }
         
-        .preview-controls {
-            position: absolute;
-            bottom: 1.5rem;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 0.75rem;
-            opacity: 0;
-            transition: var(--transition);
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(5px);
-            padding: 0.5rem 1rem;
-            border-radius: 50px;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--color-border);
-        }
-
-        .preview-container:hover .preview-controls {
-            opacity: 1;
-        }
-
-        .control-btn {
-            width: 36px; height: 36px; border: 1px solid var(--color-border); border-radius: 50%;
-            background: var(--color-surface); color: var(--color-text-primary); cursor: pointer;
-            transition: var(--transition); display: flex; align-items: center; justify-content: center;
-            font-size: 1.1rem;
-        }
-        .control-btn:hover {
-            background: #f3f4f6; transform: scale(1.1);
-        }
-
-        /* Loading States */
         .loading-spinner {
             width: 32px; height: 32px;
             border: 3px solid var(--color-border);
@@ -572,67 +250,25 @@
             margin: 0 auto 1rem;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
-
         .loading-text { color: var(--color-text-secondary); text-align: center; font-size: 0.95rem; }
-
-        /* Progress Bar */
-        .progress-container {
-            width: 100%; max-width: 400px; height: 4px;
-            background: var(--color-border);
-            border-radius: 2px; overflow: hidden; margin-bottom: 1.5rem;
-            opacity: 0; transition: var(--transition);
-        }
-        .progress-container.visible { opacity: 1; }
-        .progress-bar {
-            height: 100%; background: var(--color-accent);
-            border-radius: 2px; transform: translateX(-100%);
-            transition: transform 1.5s cubic-bezier(0.25, 1, 0.5, 1);
-        }
-        .progress-container.visible .progress-bar { transform: translateX(0); }
-
-        /* Responsive Design */
+        
+        /* Other minor style adjustments for consistency */
+        #logo-preview img { border-radius: 4px; border: 1px solid var(--color-border); }
+        #file-name-display { font-size: 0.8rem; color: var(--color-text-secondary); margin-top: 0.75rem; font-weight: 500; word-break: break-all; padding: 0 1rem; }
+        .error { color: var(--color-error); font-weight: 500; }
         @media (max-width: 900px) {
-            .app-container {
-                grid-template-columns: 1fr;
-                grid-template-rows: auto auto;
-            }
-            .controls-panel, .display-panel {
-                height: auto;
-                min-height: 80vh;
-            }
+            .app-container { grid-template-columns: 1fr; grid-template-rows: auto auto; }
+            .controls-panel, .display-panel { height: auto; min-height: 80vh; }
             .controls-panel { border-right: none; border-bottom: 1px solid var(--color-border); }
-        }
-
-        /* Error States */
-        .error {
-            color: var(--color-error);
-            font-weight: 500;
-        }
-
-        /* Logo Preview */
-        #logo-preview {
-            margin-top: 1rem;
-            min-height: 60px;
-            display: flex; justify-content: center; align-items: center;
-        }
-        #logo-preview img {
-            max-width: 100px; max-height: 60px; object-fit: contain;
-            border-radius: 4px; border: 1px solid var(--color-border);
-        }
-        #file-name-display {
-            font-size: 0.8rem; color: var(--color-text-secondary);
-            margin-top: 0.75rem; font-weight: 500;
-            word-break: break-all;
-            padding: 0 1rem;
         }
     </style>
 </head>
 <body>
     <div class="app-container">
-        <!-- Left Panel - Controls -->
+        <!-- Controls Panel -->
         <div class="controls-panel">
             <div class="header">
-                <h1 class="main-title">Générateur de Maquettes</h1>
+                <h1 class="main-title">Tote Bag <span>Designer</span></h1>
                 <p class="subtitle">Créez une maquette de tote bag personnalisée.</p>
             </div>
             
@@ -641,45 +277,32 @@
                     <label for="logoFile" class="form-label">1. Téléchargez Votre Logo</label>
                     <label for="logoFile" class="file-upload-zone" id="file-drop-zone">
                         <div class="upload-text">
-                            <strong>Cliquez pour parcourir</strong> ou glisser-déposer un fichier.
+                            <strong>Cliquez pour parcourir</strong> ou glisser-déposer.
                         </div>
                         <div id="logo-preview"></div>
                         <div id="file-name-display"></div>
                     </label>
-                    <input type="file" id="logoFile" name="logoFile" accept="image/png, image/jpeg" required>
+                    <input type="file" id="logoFile" name="logoFile" accept="image/png, image/jpeg">
                 </div>
 
                 <div class="form-group">
                     <label for="color" class="form-label">2. Couleur du Sac</label>
-                    <div class="color-picker-container">
-                        <button type="button" class="custom-color-picker" id="custom-color-picker">
-                            Choisir une couleur
-                        </button>
-                        <input type="color" id="color" name="color" value="#FFFFFF" class="native-color-picker">
-                    </div>
+                    <input type="color" id="color" name="color" value="#FFFFFF" class="native-color-picker">
+                    <button type="button" class="custom-color-picker" id="custom-color-picker" style="background-color: #FFFFFF;"></button>
                 </div>
 
                 <div class="control-group">
                     <h3 class="control-title">Positionnement et Taille</h3>
                     <div class="slider-container">
-                        <div class="slider-label-group">
-                            <label class="slider-label">Gauche ↔ Droite</label>
-                            <div class="slider-value" id="logoX-value">0</div>
-                        </div>
+                        <div class="slider-label-group"><label class="slider-label">Gauche ↔ Droite</label><div class="slider-value" id="logoX-value">0</div></div>
                         <input type="range" id="logoX" name="logoX" min="-200" max="200" value="0" class="slider">
                     </div>
                     <div class="slider-container">
-                        <div class="slider-label-group">
-                            <label class="slider-label">Haut ↔ Bas</label>
-                            <div class="slider-value" id="logoY-value">175</div>
-                        </div>
+                        <div class="slider-label-group"><label class="slider-label">Haut ↔ Bas</label><div class="slider-value" id="logoY-value">175</div></div>
                         <input type="range" id="logoY" name="logoY" min="-200" max="200" value="175" class="slider">
                     </div>
                     <div class="slider-container">
-                        <div class="slider-label-group">
-                            <label class="slider-label">Taille du Logo</label>
-                            <div class="slider-value" id="logoWidth-value">450</div>
-                        </div>
+                        <div class="slider-label-group"><label class="slider-label">Taille du Logo</label><div class="slider-value" id="logoWidth-value">450</div></div>
                         <input type="range" id="logoWidth" name="logoWidth" min="200" max="800" value="450" class="slider">
                     </div>
                 </div>
@@ -694,376 +317,203 @@
         <div class="display-panel">
             <div class="display-container">
                 <div id="result-wrapper" style="display: none;">
-                     <div class="progress-container" id="progress-container">
-                        <div class="progress-bar" id="progress-bar"></div>
-                     </div>
                     <p id="status" class="status-text"></p>
-                    <img id="result-image" class="result-image" src="" alt="Maquette générée">
+                    <img id="result-image" src="" alt="Maquette générée">
                     <div id="actions-container" class="actions-container"></div>
                 </div>
 
                 <div class="preview-container" id="preview-container">
-                    <div class="preview-placeholder" id="preview-placeholder">
-                        Téléchargez un logo pour voir l'aperçu en temps réel
-                    </div>
                     <div class="preview-loading" id="preview-loading" style="display: none;">
                         <div class="loading-spinner"></div>
-                        <div class="loading-text">Mise à jour de l'aperçu...</div>
+                        <div class="loading-text">Chargement de l'aperçu...</div>
                     </div>
-                    <img id="preview-image" src="" style="display: none;" draggable="true">
-                    <div class="preview-controls" id="preview-controls" style="display: none;">
-                        <button type="button" class="control-btn" id="center-logo" title="Centrer le Logo">⌂</button>
-                        <button type="button" class="control-btn" id="reset-logo" title="Réinitialiser Position">↺</button>
-                    </div>
+                    <!-- MODIFIED: Image is now visible by default to show initial mockup -->
+                    <img id="preview-image" src="" draggable="true" style="display: none;">
                 </div>
-
             </div>
         </div>
     </div>
-
-    <!-- Custom Color Picker Modal -->
-    <div class="color-picker-modal" id="color-picker-modal">
-        <div class="color-picker-panel">
-            <div class="color-picker-header">
-                <h3 class="color-picker-title">Sélecteur de Couleur</h3>
-                <button class="close-color-picker" id="close-color-picker">&times;</button>
-            </div>
-            <div class="color-spectrum" id="color-spectrum">
-                <div class="color-cursor" id="color-cursor"></div>
-            </div>
-            <div class="color-sliders">
-                <div class="color-slider-group">
-                    <label class="color-slider-label">R</label>
-                    <input type="range" class="color-slider red" id="red-slider" min="0" max="255" value="255">
-                    <div class="color-value" id="red-value">255</div>
-                </div>
-                <div class="color-slider-group">
-                    <label class="color-slider-label">G</label>
-                    <input type="range" class="color-slider green" id="green-slider" min="0" max="255" value="255">
-                    <div class="color-value" id="green-value">255</div>
-                </div>
-                <div class="color-slider-group">
-                    <label class="color-slider-label">B</label>
-                    <input type="range" class="color-slider blue" id="blue-slider" min="0" max="255" value="255">
-                    <div class="color-value" id="blue-value">255</div>
-                </div>
-            </div>
-            <div class="hex-input-group">
-                <label class="hex-input-label">Code Hexadécimal</label>
-                <div class="hex-input-container">
-                    <span class="hex-prefix">#</span>
-                    <input type="text" class="hex-input" id="hex-input" value="FFFFFF" maxlength="6" placeholder="FFFFFF">
-                </div>
-            </div>
-            <div class="color-presets">
-                <div class="color-preset" style="background: #ffffff; border: 1px solid #ddd;" data-color="#ffffff"></div>
-                <div class="color-preset" style="background: #F3F4F6;" data-color="#F3F4F6"></div>
-                <div class="color-preset" style="background: #9CA3AF;" data-color="#9CA3AF"></div>
-                <div class="color-preset" style="background: #374151;" data-color="#374151"></div>
-                <div class="color-preset" style="background: #111827;" data-color="#111827"></div>
-                <div class="color-preset" style="background: #FEE2E2;" data-color="#FEE2E2"></div>
-                <div class="color-preset" style="background: #D1FAE5;" data-color="#D1FAE5"></div>
-                <div class="color-preset" style="background: #DBEAFE;" data-color="#DBEAFE"></div>
-            </div>
-            <div class="color-picker-actions">
-                <button class="color-picker-btn color-picker-cancel" id="color-picker-cancel">Annuler</button>
-                <button class="color-picker-btn color-picker-apply" id="color-picker-apply">Appliquer</button>
-            </div>
-        </div>
-    </div>
-
+    
     <script>
-        // NO CHANGES WERE MADE TO THE SCRIPT - IT IS FULLY FUNCTIONAL
+        // SCRIPT MODIFIED to show initial mockup on load
+        
         const API_BASE_URL = 'https://tote-bag-customizer.onrender.com';
+        // DOM Elements
         const form = document.getElementById('mockup-form');
         const submitBtn = document.getElementById('submit-btn');
         const fileInput = document.getElementById('logoFile');
         const dropZone = document.getElementById('file-drop-zone');
         const logoPreview = document.getElementById('logo-preview');
         const fileNameDisplay = document.getElementById('file-name-display');
+        
         const resultWrapper = document.getElementById('result-wrapper');
         const statusEl = document.getElementById('status');
         const resultImage = document.getElementById('result-image');
         const actionsContainer = document.getElementById('actions-container');
-        const progressContainer = document.getElementById('progress-container');
-        const progressBar = document.getElementById('progress-bar');
+        
         const previewContainer = document.getElementById('preview-container');
         const previewImage = document.getElementById('preview-image');
-        const previewPlaceholder = document.getElementById('preview-placeholder');
         const previewLoading = document.getElementById('preview-loading');
-        const previewControls = document.getElementById('preview-controls');
-        const centerLogoBtn = document.getElementById('center-logo');
-        const resetLogoBtn = document.getElementById('reset-logo');
+        
         const logoXSlider = document.getElementById('logoX');
         const logoYSlider = document.getElementById('logoY');
         const logoWidthSlider = document.getElementById('logoWidth');
         const logoXValue = document.getElementById('logoX-value');
         const logoYValue = document.getElementById('logoY-value');
         const logoWidthValue = document.getElementById('logoWidth-value');
+        const colorInput = document.getElementById('color');
+        const customColorPicker = document.getElementById('custom-color-picker');
+
+        // State
         let currentLogoFile = null;
         let previewTimeout = null;
         let isDragging = false;
         let dragStart = { x: 0, y: 0 };
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-            dropZone.addEventListener(eventName, e => e.preventDefault(), false);
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            loadInitialMockup();
         });
-        ['dragenter', 'dragover'].forEach(eventName => {
-            dropZone.addEventListener(eventName, () => dropZone.classList.add('dragover'), false);
-        });
-        ['dragleave', 'drop'].forEach(eventName => {
-            dropZone.addEventListener(eventName, () => dropZone.classList.remove('dragover'), false);
-        });
-        dropZone.addEventListener('drop', (e) => {
-            fileInput.files = e.dataTransfer.files;
-            handleFileSelection();
-        });
-        fileInput.addEventListener('change', handleFileSelection);
+
+        // NEW FUNCTION: Loads the plain tote bag on page load
+        async function loadInitialMockup() {
+            showPreviewLoading();
+            await updatePreview(); // Call updatePreview without a logo
+        }
+
         function handleFileSelection() {
-            logoPreview.innerHTML = '';
-            fileNameDisplay.textContent = '';
             if (!fileInput.files || fileInput.files.length === 0) {
-                hidePreview();
+                currentLogoFile = null;
+                fileNameDisplay.textContent = '';
+                logoPreview.innerHTML = '';
+                updatePreview(); // Update to show plain bag if logo is removed
                 return;
             }
             const file = fileInput.files[0];
             currentLogoFile = file;
             fileNameDisplay.textContent = file.name;
-            if (previewTimeout) {
-                clearTimeout(previewTimeout);
-                previewTimeout = null;
-            }
             const reader = new FileReader();
             reader.onload = (e) => {
+                logoPreview.innerHTML = ''; // Clear previous
                 const img = document.createElement('img');
                 img.src = e.target.result;
+                img.style.maxWidth = '100px';
+                img.style.maxHeight = '60px';
                 logoPreview.appendChild(img);
-                showPreviewLoading();
-                updatePreview();
             }
             reader.readAsDataURL(file);
+            updatePreview();
         }
+        
         function showPreview() {
-            previewPlaceholder.style.display = 'none';
             previewLoading.style.display = 'none';
             previewImage.style.display = 'block';
-            previewControls.style.display = 'flex';
         }
-        function hidePreview() {
-            previewPlaceholder.style.display = 'block';
-            previewLoading.style.display = 'none';
-            previewImage.style.display = 'none';
-            previewControls.style.display = 'none';
-        }
+
         function showPreviewLoading() {
-            previewPlaceholder.style.display = 'none';
             previewImage.style.display = 'none';
             previewLoading.style.display = 'block';
-            previewControls.style.display = 'none';
         }
+
+        // MODIFIED: This function can now run with or without a logo file
         async function updatePreview() {
-            if (!currentLogoFile) {
-                hidePreview();
-                return;
-            }
             showPreviewLoading();
             clearTimeout(previewTimeout);
             previewTimeout = setTimeout(async () => {
                 try {
                     const formData = new FormData();
-                    formData.append('logoFile', currentLogoFile);
+                    // Append logo file ONLY if it exists
+                    if (currentLogoFile) {
+                        formData.append('logoFile', currentLogoFile);
+                    }
                     formData.append('logoX', logoXSlider.value);
                     formData.append('logoY', logoYSlider.value);
                     formData.append('logoWidth', logoWidthSlider.value);
-                    formData.append('color', document.getElementById('color').value);
+                    formData.append('color', colorInput.value);
+
                     const response = await fetch(`${API_BASE_URL}/preview?t=${Date.now()}`, {
                         method: 'POST',
                         body: formData,
                     });
+
                     if (response.ok) {
                         const imageBlob = await response.blob();
                         const imageUrl = URL.createObjectURL(imageBlob);
                         previewImage.src = imageUrl;
                         showPreview();
                     } else {
-                        hidePreview();
+                        console.error('Failed to update preview');
+                        // Optionally show an error message in the preview area
                     }
                 } catch (error) {
                     console.error('Preview error:', error);
-                    hidePreview();
                 }
             }, 300);
         }
+
+        // --- EVENT LISTENERS ---
+        fileInput.addEventListener('change', handleFileSelection);
+
         [logoXSlider, logoYSlider, logoWidthSlider].forEach(slider => {
             slider.addEventListener('input', (e) => {
                 const valueDisplay = document.getElementById(e.target.id + '-value');
                 valueDisplay.textContent = e.target.value;
-                updatePreview();
+                if (currentLogoFile) { // Only update preview if there's a logo
+                    updatePreview();
+                }
             });
         });
-        const customColorPicker = document.getElementById('custom-color-picker');
-        const colorPickerModal = document.getElementById('color-picker-modal');
-        const closeColorPicker = document.getElementById('close-color-picker');
-        const colorPickerCancel = document.getElementById('color-picker-cancel');
-        const colorPickerApply = document.getElementById('color-picker-apply');
-        const colorSpectrum = document.getElementById('color-spectrum');
-        const colorCursor = document.getElementById('color-cursor');
-        const redSlider = document.getElementById('red-slider');
-        const greenSlider = document.getElementById('green-slider');
-        const blueSlider = document.getElementById('blue-slider');
-        const redValue = document.getElementById('red-value');
-        const greenValue = document.getElementById('green-value');
-        const blueValue = document.getElementById('blue-value');
-        const colorPresets = document.querySelectorAll('.color-preset');
-        const nativeColorPicker = document.getElementById('color');
-        const hexInput = document.getElementById('hex-input');
-        let currentColor = '#FFFFFF';
-        let isColorDragging = false;
+        
+        colorInput.addEventListener('input', (e) => {
+            customColorPicker.style.backgroundColor = e.target.value;
+            updatePreview();
+        });
+        
         customColorPicker.addEventListener('click', () => {
-            colorPickerModal.classList.add('active');
-            const initialRgb = hexToRgb(nativeColorPicker.value);
-            updateColorFromRGB(initialRgb.r, initialRgb.g, initialRgb.b);
+            colorInput.click();
         });
-        function closeColorPickerModal() {
-            colorPickerModal.classList.remove('active');
-        }
-        closeColorPicker.addEventListener('click', closeColorPickerModal);
-        colorPickerCancel.addEventListener('click', closeColorPickerModal);
-        colorPickerModal.addEventListener('click', (e) => {
-            if (e.target === colorPickerModal) {
-                closeColorPickerModal();
-            }
-        });
-        colorSpectrum.addEventListener('mousedown', (e) => {
-            isColorDragging = true;
-            updateColorFromSpectrum(e);
-        });
-        colorSpectrum.addEventListener('mousemove', (e) => {
-            if (isColorDragging) {
-                updateColorFromSpectrum(e);
-            }
-        });
-        document.addEventListener('mouseup', () => {
-            isColorDragging = false;
-        });
-        function updateColorFromSpectrum(e) {
-            const rect = colorSpectrum.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            const xPercent = Math.max(0, Math.min(100, (x / rect.width) * 100));
-            const yPercent = Math.max(0, Math.min(100, (y / rect.height) * 100));
-            
-            // This logic is a bit simplified for a standard spectrum
-            const hue = (xPercent / 100) * 360;
-            const lightness = 100 - yPercent;
-            const saturation = 100; // Saturation is constant in this spectrum type
-            const rgb = hslToRgb(hue, saturation, lightness / 2 + 50);
 
-            updateColorFromRGB(rgb[0], rgb[1], rgb[2]);
-            colorCursor.style.left = xPercent + '%';
-            colorCursor.style.top = yPercent + '%';
-        }
-        function hslToRgb(h, s, l) {
-            s /= 100; l /= 100;
-            let c = (1 - Math.abs(2 * l - 1)) * s,
-                x = c * (1 - Math.abs((h / 60) % 2 - 1)),
-                m = l - c/2, r = 0, g = 0, b = 0;
-            if (0 <= h && h < 60) { r = c; g = x; b = 0; }
-            else if (60 <= h && h < 120) { r = x; g = c; b = 0; }
-            else if (120 <= h && h < 180) { r = 0; g = c; b = x; }
-            else if (180 <= h && h < 240) { r = 0; g = x; b = c; }
-            else if (240 <= h && h < 300) { r = x; g = 0; b = c; }
-            else if (300 <= h && h < 360) { r = c; g = 0; b = x; }
-            r = Math.round((r + m) * 255); g = Math.round((g + m) * 255); b = Math.round((b + m) * 255);
-            return [r, g, b];
-        }
-        [redSlider, greenSlider, blueSlider].forEach(slider => {
-            slider.addEventListener('input', (e) => {
-                const r = parseInt(redSlider.value), g = parseInt(greenSlider.value), b = parseInt(blueSlider.value);
-                updateColorFromRGB(r, g, b);
-            });
-        });
-        function updateColorFromRGB(r, g, b) {
-            redSlider.value = r; greenSlider.value = g; blueSlider.value = b;
-            redValue.textContent = r; greenValue.textContent = g; blueValue.textContent = b;
-            currentColor = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`.toUpperCase();
-            hexInput.value = currentColor.substring(1);
-        }
-        colorPresets.forEach(preset => {
-            preset.addEventListener('click', () => {
-                const color = preset.dataset.color;
-                const rgb = hexToRgb(color);
-                updateColorFromRGB(rgb.r, rgb.g, rgb.b);
-            });
-        });
-        function hexToRgb(hex) {
-            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-            return result ? { r: parseInt(result[1], 16), g: parseInt(result[2], 16), b: parseInt(result[3], 16) } : null;
-        }
-        colorPickerApply.addEventListener('click', () => {
-            nativeColorPicker.value = currentColor;
-            customColorPicker.style.background = currentColor;
-            updatePreview();
-            closeColorPickerModal();
-        });
-        hexInput.addEventListener('input', (e) => {
-            const value = e.target.value.toUpperCase(); e.target.value = value;
-            if (/^[0-9A-F]{6}$/.test(value)) {
-                const rgb = hexToRgb('#' + value);
-                if (rgb) updateColorFromRGB(rgb.r, rgb.g, rgb.b);
-            }
-        });
-        nativeColorPicker.addEventListener('input', (e) => {
-            currentColor = e.target.value; customColorPicker.style.background = currentColor; updatePreview();
-        });
-        centerLogoBtn.addEventListener('click', () => {
-            logoXSlider.value = 0; logoYSlider.value = 175;
-            logoXValue.textContent = '0'; logoYValue.textContent = '175';
-            updatePreview();
-        });
-        resetLogoBtn.addEventListener('click', () => {
-            logoXSlider.value = 0; logoYSlider.value = 175; logoWidthSlider.value = 450;
-            logoXValue.textContent = '0'; logoYValue.textContent = '175'; logoWidthValue.textContent = '450';
-            updatePreview();
-        });
         previewImage.addEventListener('mousedown', (e) => {
+            if (!currentLogoFile) return; // Prevent dragging if no logo
             isDragging = true; dragStart = { x: e.clientX, y: e.clientY };
-            previewContainer.classList.add('dragging'); e.preventDefault();
+            e.preventDefault();
         });
         document.addEventListener('mousemove', (e) => {
             if (!isDragging) return;
-            const deltaX = e.clientX - dragStart.x, deltaY = e.clientY - dragStart.y;
-            const newX = Math.max(-200, Math.min(200, logoXSlider.valueAsNumber + deltaX * 0.5));
-            const newY = Math.max(-200, Math.min(200, logoYSlider.valueAsNumber + deltaY * 0.5));
-            logoXSlider.value = newX; logoYSlider.value = newY;
-            logoXValue.textContent = Math.round(newX); logoYValue.textContent = Math.round(newY);
+            const deltaX = e.clientX - dragStart.x;
+            const deltaY = e.clientY - dragStart.y;
+            // Adjust sensitivity by multiplying delta
+            const newX = Math.max(-200, Math.min(200, logoXSlider.valueAsNumber + deltaX * 0.75));
+            const newY = Math.max(-200, Math.min(200, logoYSlider.valueAsNumber + deltaY * 0.75));
+            logoXSlider.value = newX;
+            logoYSlider.value = newY;
+            logoXValue.textContent = Math.round(newX);
+            logoYValue.textContent = Math.round(newY);
             dragStart = { x: e.clientX, y: e.clientY };
             updatePreview();
         });
         document.addEventListener('mouseup', () => {
-            if (isDragging) { isDragging = false; previewContainer.classList.remove('dragging'); }
+            if (isDragging) { isDragging = false; }
         });
+
+        // --- FINAL SUBMISSION ---
         form.addEventListener('submit', async (event) => {
             event.preventDefault();
             if (!currentLogoFile) {
-                showError('Veuillez sélectionner un logo avant de continuer.');
+                alert('Veuillez sélectionner un logo avant de continuer.');
                 return;
             }
-            setLoadingState(true, 'Finalisation de votre design...');
+            setLoadingState(true);
             try {
                 const formData = new FormData();
                 formData.append('logoFile', currentLogoFile);
-                formData.append('color', document.getElementById('color').value);
+                formData.append('color', colorInput.value);
                 formData.append('logoX', logoXSlider.value);
                 formData.append('logoY', logoYSlider.value);
                 formData.append('logoWidth', logoWidthSlider.value);
                 const response = await fetch(`${API_BASE_URL}/finalize-for-shopify`, {
-                    method: 'POST',
-                    body: formData,
+                    method: 'POST', body: formData,
                 });
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.details || 'Une erreur est survenue lors de la création de votre maquette.');
-                }
+                if (!response.ok) throw new Error('Failed to generate final mockup.');
                 const designData = await response.json();
                 showSuccess(designData.mockupUrl);
                 const shopifyPayload = {
@@ -1079,78 +529,70 @@
                         '_preview_image': designData.mockupUrl
                     }
                 };
-                console.log('Sending payload to parent Shopify page:', shopifyPayload);
                 window.parent.postMessage(shopifyPayload, '*');
             } catch (error) {
-                console.error('Erreur finale de soumission:', error);
                 showError(error.message);
             } finally {
                 setLoadingState(false);
             }
         });
+        
         function setLoadingState(isLoading) {
             submitBtn.disabled = isLoading;
             if (isLoading) {
                 submitBtn.textContent = 'Génération en cours...';
                 previewContainer.style.display = 'none';
                 resultWrapper.style.display = 'block';
-                statusEl.textContent = 'Traitement de votre maquette...';
+                statusEl.textContent = 'Finalisation de votre design...';
                 statusEl.style.display = 'block';
-                statusEl.classList.remove('error');
-                resultImage.classList.remove('visible');
                 resultImage.src = '';
                 actionsContainer.innerHTML = '';
-                progressContainer.classList.add('visible');
-                progressBar.style.transition = 'none';
-                progressBar.style.transform = 'translateX(-100%)';
-                setTimeout(() => {
-                     progressBar.style.transition = 'transform 1.5s cubic-bezier(0.25, 1, 0.5, 1)';
-                     progressBar.style.transform = 'translateX(0%)';
-                }, 20);
             } else {
                 submitBtn.textContent = 'Finaliser et Ajouter au Panier';
-                progressContainer.classList.remove('visible');
             }
         }
+
         function showSuccess(imageUrl) {
             statusEl.style.display = 'none';
             resultImage.src = imageUrl;
-            resultImage.onload = () => {
-                resultImage.classList.add('visible');
-            };
+            resultImage.onload = () => resultImage.classList.add('visible');
             const newMockupBtn = document.createElement('button');
-            newMockupBtn.className = 'action-btn new-mockup-btn';
+            newMockupBtn.className = 'action-btn';
             newMockupBtn.textContent = 'Créer une Nouvelle Maquette';
-            newMockupBtn.onclick = () => {
-                resetEverything();
-            };
+            newMockupBtn.onclick = resetEverything;
             actionsContainer.innerHTML = '';
             actionsContainer.appendChild(newMockupBtn);
         }
+
         function showError(message) {
-            previewContainer.style.display = 'none';
-            resultWrapper.style.display = 'block';
-            statusEl.style.display = 'block';
-            resultImage.classList.remove('visible');
-            actionsContainer.innerHTML = '';
-            statusEl.textContent = `Erreur: ${message}`;
-            statusEl.classList.add('error');
+             statusEl.textContent = `Erreur: ${message}`;
+             statusEl.classList.add('error');
         }
+
         function resetEverything() {
-            document.getElementById('color').value = '#FFFFFF';
-            customColorPicker.style.background = '#FFFFFF';
-            logoXSlider.value = 0; logoYSlider.value = 175; logoWidthSlider.value = 450;
-            logoXValue.textContent = '0'; logoYValue.textContent = '175'; logoWidthValue.textContent = '450';
-            fileInput.value = '';
-            logoPreview.innerHTML = '';
-            fileNameDisplay.textContent = '';
+            form.reset();
             currentLogoFile = null;
+            fileNameDisplay.textContent = '';
+            logoPreview.innerHTML = '';
+            logoXValue.textContent = logoXSlider.value;
+            logoYValue.textContent = logoYSlider.value;
+            logoWidthValue.textContent = logoWidthSlider.value;
+            customColorPicker.style.backgroundColor = colorInput.value;
             resultWrapper.style.display = 'none';
             previewContainer.style.display = 'flex';
-            hidePreview();
             submitBtn.disabled = false;
             submitBtn.textContent = 'Finaliser et Ajouter au Panier';
+            loadInitialMockup();
         }
+
+        // Drag and drop for file input zone
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => dropZone.addEventListener(eventName, e => e.preventDefault()));
+        ['dragenter', 'dragover'].forEach(eventName => dropZone.addEventListener(eventName, () => dropZone.classList.add('dragover')));
+        ['dragleave', 'drop'].forEach(eventName => dropZone.addEventListener(eventName, () => dropZone.classList.remove('dragover')));
+        dropZone.addEventListener('drop', (e) => {
+            fileInput.files = e.dataTransfer.files;
+            handleFileSelection();
+        });
     </script>
 </body>
 </html>
